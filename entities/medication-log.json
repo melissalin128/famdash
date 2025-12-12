@@ -1,0 +1,28 @@
+{
+  "name": "MedicationLog",
+  "type": "object",
+  "properties": {
+    "medication_id": {
+      "type": "string",
+      "description": "ID of the medication"
+    },
+    "taken_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the medication was taken"
+    },
+    "taken_by": {
+      "type": "string",
+      "description": "Email of who marked it as taken"
+    },
+    "date": {
+      "type": "string",
+      "format": "date",
+      "description": "The date this log is for"
+    }
+  },
+  "required": [
+    "medication_id",
+    "date"
+  ]
+}

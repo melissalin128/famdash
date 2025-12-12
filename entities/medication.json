@@ -1,0 +1,41 @@
+{
+  "name": "Medication",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Name of the medication"
+    },
+    "dosage": {
+      "type": "string",
+      "description": "Dosage amount (e.g., 50mg, 2 tablets)"
+    },
+    "instructions": {
+      "type": "string",
+      "description": "Special instructions (e.g., take with food)"
+    },
+    "time_of_day": {
+      "type": "string",
+      "enum": [
+        "morning",
+        "afternoon",
+        "evening",
+        "bedtime"
+      ],
+      "description": "When to take the medication"
+    },
+    "icon": {
+      "type": "string",
+      "description": "Emoji or icon for easy recognition"
+    },
+    "for_member": {
+      "type": "string",
+      "description": "Email of the family member this medication is for"
+    }
+  },
+  "required": [
+    "name",
+    "time_of_day",
+    "for_member"
+  ]
+}

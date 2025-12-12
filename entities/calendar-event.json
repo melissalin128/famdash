@@ -1,0 +1,45 @@
+{
+  "name": "CalendarEvent",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "Event title"
+    },
+    "description": {
+      "type": "string",
+      "description": "Event details"
+    },
+    "date": {
+      "type": "string",
+      "format": "date",
+      "description": "Event date"
+    },
+    "time": {
+      "type": "string",
+      "description": "Event time (e.g., 2:00 PM)"
+    },
+    "event_type": {
+      "type": "string",
+      "enum": [
+        "doctor",
+        "family",
+        "reminder",
+        "other"
+      ],
+      "description": "Type of event"
+    },
+    "for_member": {
+      "type": "string",
+      "description": "Email of family member this is for"
+    },
+    "location": {
+      "type": "string",
+      "description": "Event location"
+    }
+  },
+  "required": [
+    "title",
+    "date"
+  ]
+}
