@@ -7,12 +7,12 @@ import { Pill, Sun, Sunset, Moon, ChevronRight } from 'lucide-react';
 import Link from 'next/link';
 import { createPageUrl } from '@/utils';
 
-import QuickCheckIn from '@/components/dashboard/QuickCheckIn';
-import MedicationCard from '@/components/dashboard/MedicationCard';
-import UpcomingEvents from '@/components/dashboard/UpcomingEvents';
-import RecentCheckIns from '@/components/dashboard/RecentCheckIns';
-import EmergencyContacts from '@/components/dashboard/EmergencyContacts';
-import FamilyNotes from '@/components/dashboard/FamilyNotes';
+import QuickCheckIn from '@/components/dashboard/checkin';
+import MedicationCard from '@/components/dashboard/medication-card';
+import UpcomingEvents from '@/components/dashboard/event';
+import RecentCheckIns from '@/components/dashboard/recent-checkin';
+import EmergencyContacts from '@/components/dashboard/emergency-contact';
+import FamilyNotes from '@/components/dashboard/family-note';
 
 const timeSlots = [
   { key: 'morning', label: 'Morning', icon: Sun, color: 'text-amber-500' },
