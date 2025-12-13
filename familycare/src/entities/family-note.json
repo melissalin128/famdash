@@ -1,0 +1,21 @@
+{
+  "name": "FamilyNote",
+  "type": "object",
+  "properties": {
+    "content": {
+      "type": "string",
+      "description": "The note content"
+    },
+    "author_name": {
+      "type": "string",
+      "description": "Name of who wrote the note"
+    },
+    "is_pinned": {
+      "type": "boolean",
+      "description": "Whether this note is pinned"
+    }
+  },
+  "required": [
+    "content"
+  ]
+}

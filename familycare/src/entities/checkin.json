@@ -1,0 +1,33 @@
+{
+  "name": "CheckIn",
+  "type": "object",
+  "properties": {
+    "member_email": {
+      "type": "string",
+      "description": "Email of the family member checking in"
+    },
+    "mood": {
+      "type": "string",
+      "enum": [
+        "great",
+        "good",
+        "okay",
+        "not_great"
+      ],
+      "description": "How they're feeling"
+    },
+    "note": {
+      "type": "string",
+      "description": "Optional note or message"
+    },
+    "date": {
+      "type": "string",
+      "format": "date",
+      "description": "Date of check-in"
+    }
+  },
+  "required": [
+    "member_email",
+    "date"
+  ]
+}
