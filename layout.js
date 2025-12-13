@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import { createPageUrl } from '@/utils';
 import { base44 } from '@/api/base44Client';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -55,7 +55,7 @@ export default function Layout({ children, currentPageName }) {
               return (
                 <Link
                   key={item.page}
-                  to={createPageUrl(item.page)}
+                  href={createPageUrl(item.page)}
                   className={`flex items-center gap-4 px-4 py-4 rounded-2xl transition-all text-lg ${
                     isActive
                       ? 'bg-violet-50 text-violet-700 font-semibold'
@@ -131,7 +131,7 @@ export default function Layout({ children, currentPageName }) {
                   return (
                     <Link
                       key={item.page}
-                      to={createPageUrl(item.page)}
+                      href={createPageUrl(item.page)}
                       onClick={() => setMobileMenuOpen(false)}
                       className={`flex items-center gap-4 px-4 py-4 rounded-2xl transition-all text-lg ${
                         isActive
@@ -184,7 +184,7 @@ export default function Layout({ children, currentPageName }) {
             return (
               <Link
                 key={item.page}
-                to={createPageUrl(item.page)}
+                href={createPageUrl(item.page)}
                 className={`flex flex-col items-center gap-1 px-4 py-2 rounded-xl transition-all ${
                   isActive
                     ? 'text-violet-600'

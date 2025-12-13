@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import { format } from 'date-fns';
 import { motion } from 'framer-motion';
 import { Pill, Sun, Sunset, Moon, ChevronRight } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import { createPageUrl } from '@/utils';
 
 import QuickCheckIn from '@/components/dashboard/QuickCheckIn';
@@ -131,7 +131,7 @@ export default function Home() {
                 </div>
               </div>
               <Link
-                to={createPageUrl('Medications')}
+                href={createPageUrl('Medications')}
                 className="hidden md:flex items-center gap-2 bg-white/20 hover:bg-white/30 px-4 py-2 rounded-xl transition-all"
               >
                 View All
@@ -165,7 +165,7 @@ export default function Home() {
                   Today's Medications
                 </h2>
                 <Link
-                  to={createPageUrl('Medications')}
+                  href={createPageUrl('Medications')}
                   className="text-sm text-violet-600 hover:text-violet-700 flex items-center gap-1"
                 >
                   Manage <ChevronRight className="w-4 h-4" />
@@ -177,7 +177,7 @@ export default function Home() {
                   <Pill className="w-12 h-12 mx-auto mb-3 text-slate-300" />
                   <p className="text-slate-500">No medications added yet</p>
                   <Link
-                    to={createPageUrl('Medications')}
+                    href={createPageUrl('Medications')}
                     className="inline-block mt-4 text-violet-600 hover:text-violet-700 font-medium"
                   >
                     Add Medication
