@@ -10,6 +10,17 @@ export default function DashboardCaretaker() {
   const [medList, setMedList] = useState(medications);
   const [checkinList, setCheckinList] = useState(checkins);
 
+  // NEW: add-medication UI state (same pattern as Elder)
+  const [showAddMedication, setShowAddMedication] = useState(false);
+  const [newMedication, setNewMedication] = useState({
+    name: "",
+    dosage: "",
+    instructions: "",
+    time_of_day: "",
+    icon: "",
+    for_member: "", // REQUIRED for caretaker
+  });
+
   // Filtered arrays based on selected elder
   const filteredMeds = selectedElder
     ? medList.filter((m) => m.for_member === selectedElder)
@@ -20,33 +31,20 @@ export default function DashboardCaretaker() {
     : checkinList;
 
   const elders = Array.from(
-    new Set([...medList.map((m) => m.for_member), ...checkinList.map((c) => c.member_email)])
+    new Set([
+      ...medList.map((m) => m.for_member),
+      ...checkinList.map((c) => c.member_email),
+    ])
   );
 
-  // Add medication handler
-  const handleAddMedication = () => {
-    const name = prompt("Medication name:");
-    const dosage = prompt("Dosage:");
-    const instructions = prompt("Instructions:");
-    const time_of_day = prompt("Time of day (morning, afternoon, evening, bedtime):");
-    const icon = prompt("Icon or emoji:");
-    const for_member = prompt("Elder email:");
-    if (name && time_of_day && for_member) {
-      setMedList([
-        ...medList,
-        { name, dosage, instructions, time_of_day, icon, for_member },
-      ]);
-    }
-  };
-
-  // Delete medication handler
+  // Delete medication handler (unchanged)
   const handleDeleteMedication = (idx) => {
     const newList = [...medList];
     newList.splice(idx, 1);
     setMedList(newList);
   };
 
-  // Delete checkin handler
+  // Delete checkin handler (unchanged)
   const handleDeleteCheckin = (idx) => {
     const newList = [...checkinList];
     newList.splice(idx, 1);
@@ -67,7 +65,9 @@ export default function DashboardCaretaker() {
           >
             <option value="">All</option>
             {elders.map((e) => (
-              <option key={e} value={e}>{e}</option>
+              <option key={e} value={e}>
+                {e}
+              </option>
             ))}
           </select>
         </label>
@@ -77,12 +77,120 @@ export default function DashboardCaretaker() {
       <section style={{ marginTop: 20 }}>
         <h2 style={{ display: "flex", alignItems: "center", gap: 10 }}>
           Medications
-          <Button onClick={handleAddMedication}>+ Add</Button>
+          <Button onClick={() => setShowAddMedication(!showAddMedication)}>
+            + Add
+          </Button>
         </h2>
+
+        {/* Add Medication Form (STANDARDIZED WITH ELDER) */}
+        {showAddMedication && (
+          <Card style={{ padding: 16, marginTop: 16, maxWidth: 420 }}>
+            <h3>Add Medication</h3>
+
+            <Input
+              placeholder="Medication name"
+              value={newMedication.name}
+              onChange={(e) =>
+                setNewMedication({ ...newMedication, name: e.target.value })
+              }
+              style={{ marginBottom: 8 }}
+            />
+
+            <Input
+              placeholder="Dosage"
+              value={newMedication.dosage}
+              onChange={(e) =>
+                setNewMedication({ ...newMedication, dosage: e.target.value })
+              }
+              style={{ marginBottom: 8 }}
+            />
+
+            <Input
+              placeholder="Instructions"
+              value={newMedication.instructions}
+              onChange={(e) =>
+                setNewMedication({
+                  ...newMedication,
+                  instructions: e.target.value,
+                })
+              }
+              style={{ marginBottom: 8 }}
+            />
+
+            <Input
+              placeholder="Time of day (morning / afternoon / evening / bedtime)"
+              value={newMedication.time_of_day}
+              onChange={(e) =>
+                setNewMedication({
+                  ...newMedication,
+                  time_of_day: e.target.value,
+                })
+              }
+              style={{ marginBottom: 8 }}
+            />
+
+            <Input
+              placeholder="Icon (emoji)"
+              value={newMedication.icon}
+              onChange={(e) =>
+                setNewMedication({ ...newMedication, icon: e.target.value })
+              }
+              style={{ marginBottom: 8 }}
+            />
+
+            {/* REQUIRED FIELD FOR CARETAKER */}
+            <Input
+              placeholder="Assign to elder (email)"
+              value={newMedication.for_member}
+              onChange={(e) =>
+                setNewMedication({
+                  ...newMedication,
+                  for_member: e.target.value,
+                })
+              }
+              style={{ marginBottom: 12 }}
+            />
+
+            <Button
+              style={{ width: "100%" }}
+              onClick={() => {
+                if (
+                  !newMedication.name ||
+                  !newMedication.time_of_day ||
+                  !newMedication.for_member
+                ) {
+                  return;
+                }
+
+                setMedList([...medList, newMedication]);
+
+                setNewMedication({
+                  name: "",
+                  dosage: "",
+                  instructions: "",
+                  time_of_day: "",
+                  icon: "",
+                  for_member: "",
+                });
+
+                setShowAddMedication(false);
+              }}
+            >
+              Save Medication
+            </Button>
+          </Card>
+        )}
+
+        {/* Medication Cards (UNCHANGED UI) */}
         <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
           {filteredMeds.map((med, idx) => (
-            <Card key={idx} style={{ padding: 10, minWidth: 200, position: "relative" }}>
-              <h3>{med.icon} {med.name}</h3>
+            <Card
+              key={idx}
+              style={{ padding: 10, minWidth: 200, position: "relative" }}
+            >
+              <h3>
+                {med.icon} {med.name}
+              </h3>
               <p>Dosage: {med.dosage}</p>
               <p>Time: {med.time_of_day}</p>
               <p>For: {med.for_member}</p>
@@ -95,12 +203,15 @@ export default function DashboardCaretaker() {
         </div>
       </section>
 
-      {/* Check-ins Section */}
+      {/* Check-ins Section (UNCHANGED) */}
       <section style={{ marginTop: 40 }}>
         <h2>Check-ins</h2>
         <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
           {filteredCheckins.map((checkin, idx) => (
-            <Card key={idx} style={{ padding: 10, minWidth: 200, position: "relative" }}>
+            <Card
+              key={idx}
+              style={{ padding: 10, minWidth: 200, position: "relative" }}
+            >
               <p>{checkin.member_email}</p>
               <p>Mood: {checkin.mood}</p>
               <p>Note: {checkin.note || "—"}</p>
@@ -117,7 +228,7 @@ export default function DashboardCaretaker() {
   );
 }
 
-// Reusable 3-dot dropdown menu
+// Reusable 3-dot dropdown menu (UNCHANGED)
 function ThreeDotMenu({ onDelete, onHistory }) {
   const [open, setOpen] = React.useState(false);
 
@@ -158,7 +269,10 @@ function ThreeDotMenu({ onDelete, onHistory }) {
               background: "transparent",
               cursor: "pointer",
             }}
-            onClick={() => { onHistory(); setOpen(false); }}
+            onClick={() => {
+              onHistory();
+              setOpen(false);
+            }}
           >
             History
           </button>
@@ -173,7 +287,10 @@ function ThreeDotMenu({ onDelete, onHistory }) {
               cursor: "pointer",
               color: "red",
             }}
-            onClick={() => { onDelete(); setOpen(false); }}
+            onClick={() => {
+              onDelete();
+              setOpen(false);
+            }}
           >
             Delete
           </button>

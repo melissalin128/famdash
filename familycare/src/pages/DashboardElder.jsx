@@ -7,14 +7,13 @@ import { Card } from "@/components/ui/card";
 
 const currentElderEmail = "elder@example.com";
 
+
 export default function DashboardElder() {
-  const [medList, setMedList] = useState(
-    medications.filter((m) => m.for_member === currentElderEmail)
-  );
+    const [medList, setMedList] = useState(medications);
+
   const [checkinList, setCheckinList] = useState(
     checkins.filter((c) => c.member_email === currentElderEmail)
   );
-
 
 
   const [showAddMedication, setShowAddMedication] = useState(false);
@@ -29,6 +28,12 @@ export default function DashboardElder() {
 
   const [selectedMood, setSelectedMood] = useState("");
   const [note, setNote] = useState("");
+
+  const filteredMeds = medList.filter(
+    (m) => m.for_member === currentElderEmail
+  );
+  
+  
 
   const moodMap = {
     "😢": "not_great",
@@ -161,7 +166,7 @@ export default function DashboardElder() {
             ...medList,
             {
               ...newMedication,
-              for_member: elderEmail,
+              for_member: currentElderEmail,
             },
           ]);
 
@@ -190,7 +195,7 @@ export default function DashboardElder() {
       marginTop: 20,
     }}
   >
-    {medList.map((med, idx) => (
+    {filteredMeds.map((med, idx) => (
       <Card
         key={idx}
         style={{ padding: 10, minWidth: 200, position: "relative" }}
