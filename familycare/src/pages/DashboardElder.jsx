@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { supabase } from "@/api/supabaseClient"; 
 import { Button, Input } from "@/components/ui";
 import { medications } from "@/entities/medicationData";
 import { checkins } from "@/entities/checkinData";
@@ -10,6 +11,24 @@ const currentElderEmail = "elder@example.com";
 
 export default function DashboardElder() {
     const [medList, setMedList] = useState(medications);
+
+    useEffect(() => {
+        const fetchMedications = async () => {
+          const { data: meds, error } = await supabase
+            .from("medications")
+            .select("*")
+            .eq("elder_id", "a451f6a0-b42f-4f69-9cda-502f4a1e9575"); // currentElder's UUID
+      
+          if (error) {
+            console.error("Error fetching medications:", error);
+          } else {
+            setMedList(meds);
+          }
+        };
+      
+        fetchMedications();
+      }, []);
+      
 
   const [checkinList, setCheckinList] = useState(
     checkins.filter((c) => c.member_email === currentElderEmail)

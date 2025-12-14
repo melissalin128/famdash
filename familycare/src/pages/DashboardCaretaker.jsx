@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { supabase } from "@/api/supabaseClient"; 
 import { Button, Input } from "@/components/ui";
 import { medications } from "@/entities/medicationData";
 import { checkins } from "@/entities/checkinData";
@@ -9,6 +10,7 @@ export default function DashboardCaretaker() {
   const [selectedElder, setSelectedElder] = useState("");
   const [medList, setMedList] = useState(medications);
   const [checkinList, setCheckinList] = useState(checkins);
+  
 
   // NEW: add-medication UI state (same pattern as Elder)
   const [showAddMedication, setShowAddMedication] = useState(false);
@@ -20,6 +22,38 @@ export default function DashboardCaretaker() {
     icon: "",
     for_member: "", // REQUIRED for caretaker
   });
+
+  useEffect(() => {
+    const fetchMedications = async () => {
+      const { data: meds, error } = await supabase
+        .from("medications")
+        .select("*");
+      if (error) {
+        console.error("Error fetching medications:", error);
+      } else {
+        setMedList(meds);
+      }
+    };
+  
+    fetchMedications();
+  }, []);
+
+  
+  useEffect(() => {
+    const fetchCheckins = async () => {
+      const { data: checkinsData, error } = await supabase
+        .from("checkins")
+        .select("*");
+      if (error) {
+        console.error("Error fetching check-ins:", error);
+      } else {
+        setCheckinList(checkinsData);
+      }
+    };
+  
+    fetchCheckins();
+  }, []);
+  
 
   // Filtered arrays based on selected elder
   const filteredMeds = selectedElder
