@@ -1,9 +1,58 @@
 import React, { useState, useEffect } from "react";
 import { supabase } from "@/api/supabaseClient"; 
-import { Button, Input } from "@/components/ui";
+// import { Button, Input } from "@/components/ui";
 import { medications } from "@/entities/medicationData";
 import { checkins } from "@/entities/checkinData";
-import { Card } from "@/components/ui/card";
+// import { Card } from "@/components/ui/card";
+
+function Card({ children, style }) {
+  return (
+    <div
+      style={{
+        border: "1px solid #ddd",
+        borderRadius: 8,
+        padding: 12,
+        background: "#fff",
+        ...style,
+      }}
+    >
+      {children}
+    </div>
+  );
+}
+
+function Button({ children, ...props }) {
+  return (
+    <button
+      {...props}
+      style={{
+        padding: "6px 12px",
+        borderRadius: 6,
+        border: "none",
+        background: "#2563eb",
+        color: "#fff",
+        cursor: "pointer",
+      }}
+    >
+      {children}
+    </button>
+  );
+}
+
+function Input(props) {
+  return (
+    <input
+      {...props}
+      style={{
+        width: "100%",
+        padding: 8,
+        borderRadius: 6,
+        border: "1px solid #ccc",
+      }}
+    />
+  );
+}
+
 
 
 const currentElderEmail = "elder@example.com";
